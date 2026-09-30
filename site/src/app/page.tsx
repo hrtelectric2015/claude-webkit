@@ -35,6 +35,11 @@ const services = [
     body: "Walk-ups, townhomes, duplexes and custom homes. We price units the way we price commercial work: line by line, so draw day holds no surprises.",
     items: ["Unit rough-in & trim", "Meter banks", "Common-area lighting", "Custom homes"],
   },
+  {
+    title: "Inspections & lighting",
+    body: "Buying, selling or renovating? We inspect the electrical, fix what doesn't meet code, and upgrade the lighting inside and out, for homes and businesses alike.",
+    items: ["Electrical inspections", "Code corrections", "Interior & exterior lighting", "Panel upgrades"],
+  },
 ];
 
 const principles = [
