@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+/* Hover styles only for real pointers, never sticky on touch. */
+@custom-variant hover-fine {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
+/* HRT Electric brand tokens, sampled from the logo, van wrap and uniform. */
+:root {
+  --brand: #e91c26;
+  --brand-deep: #b8141c;
+  --ink: #111111;
+  --paper: #ffffff;
+  --paper-warm: #f6f4f1;
+  --steel: #5b5f66;
+  --rule: #e4e0da;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-warm: var(--paper-warm);
+  --color-steel: var(--steel);
+  --color-rule: var(--rule);
+
+  --font-sans: var(--font-plex);
+  --font-serif: var(--font-source-serif);
+  --font-mark: var(--font-cinzel);
+}
+
+/* Fluid modular type scale (ratio ~1.25). */
+@theme {
+  --text-display: clamp(2.5rem, 1.6rem + 4.2vw, 4.75rem);
+  --text-display--line-height: 1.02;
+  --text-headline: clamp(2rem, 1.5rem + 2.2vw, 3.25rem);
+  --text-headline--line-height: 1.08;
+  --text-title: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --text-title--line-height: 1.2;
+  --text-lede: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --text-lede--line-height: 1.55;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-plex), ui-sans-serif, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--brand);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Motion ---------- */
+
+/* Hero entrance: marketing surface, allowed to run long. */
+.rise {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: rise 700ms var(--ease-out) forwards;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Bulb outline draws itself once, then the base bands land. */
+.bulb-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 900ms var(--ease-in-out) 250ms forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.bulb-band {
+  opacity: 0;
+  transform: translateY(-6px);
+  animation: rise 500ms var(--ease-out) forwards;
+  animation-delay: calc(var(--i, 0) * 60ms + 900ms);
+}
+
+/* Scroll reveal, fired once by <Reveal>. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 600ms var(--ease-out),
+    transform 600ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile menu sheet. Radix waits for these keyframes before unmounting. */
+.sheet-panel[data-state="open"] {
+  animation: sheet-in 320ms var(--ease-drawer);
+}
+.sheet-panel[data-state="closed"] {
+  animation: sheet-out 240ms var(--ease-out);
+}
+.sheet-overlay[data-state="open"] {
+  animation: fade-in 320ms var(--ease-out);
+}
+.sheet-overlay[data-state="closed"] {
+  animation: fade-out 240ms var(--ease-out);
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes sheet-out {
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* Gentler, not zero: keep the fades, drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise,
+  .bulb-band {
+    transform: none;
+    animation-name: fade;
+    animation-duration: 400ms;
+  }
+  .bulb-draw {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+  .reveal {
+    transform: none;
+    transition: opacity 400ms var(--ease-out);
+  }
+  .sheet-panel[data-state="open"] {
+    animation-name: fade-in;
+  }
+  .sheet-panel[data-state="closed"] {
+    animation-name: fade-out;
+  }
+}
+
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}
