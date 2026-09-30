@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Never scan build output for class names. */
+@source not "../../.next";
+
 /* Hover styles only for real pointers, never sticky on touch. */
 @custom-variant hover-fine {
   @media (hover: hover) and (pointer: fine) {
