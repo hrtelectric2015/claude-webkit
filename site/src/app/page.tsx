@@ -113,7 +113,7 @@ const jsonLd = {
   foundingDate: "2016",
   address: {
     "@type": "PostalAddress",
-    streetAddress: site.street,
+    streetAddress: `${site.street} ${site.suite}`,
     addressLocality: site.city,
     addressRegion: site.region,
     postalCode: site.zip,
@@ -459,7 +459,7 @@ export default function Home() {
                   </a>
                 </Button>
               </div>
-              <address className="mt-12 grid gap-6 border-t border-white/40 pt-8 not-italic sm:grid-cols-2 xl:grid-cols-4">
+              <address className="mt-12 grid gap-6 border-t border-white/40 pt-8 not-italic sm:grid-cols-2">
                 <a href={site.phoneHref} className="group flex items-start gap-3">
                   <Phone className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
                   <span>
@@ -471,14 +471,16 @@ export default function Home() {
                   <Mail className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
                   <span className="min-w-0">
                     <span className="block text-sm font-semibold uppercase tracking-[0.1em]">Email</span>
-                    <span className="break-all underline-offset-4 group-hover:underline">{site.email}</span>
+                    <span className="break-words underline-offset-4 group-hover:underline">{site.email}</span>
                   </span>
                 </a>
                 <p className="flex items-start gap-3">
                   <MapPin className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
                   <span>
-                    <span className="block text-sm font-semibold uppercase tracking-[0.1em]">Office</span>
+                    <span className="block text-sm font-semibold uppercase tracking-[0.1em]">Mailing address</span>
                     {site.street}
+                    <br />
+                    {site.suite}
                     <br />
                     {site.city}, {site.region} {site.zip}
                   </span>

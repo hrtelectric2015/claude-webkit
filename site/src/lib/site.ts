@@ -6,10 +6,11 @@ export const site = {
   phone: "402.981.6635",
   phoneHref: "tel:+14029816635",
   email: "hrtelectric2015@gmail.com",
-  street: "2117 S 153rd St",
+  street: "17330 W Center Rd",
+  suite: "Ste 110-307",
   city: "Omaha",
   region: "NE",
-  zip: "68144",
+  zip: "68130",
   facebook: "https://www.facebook.com/hrtelectric/",
 };
 
