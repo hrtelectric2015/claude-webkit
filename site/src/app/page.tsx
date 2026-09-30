@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
-import { ArrowRight, BadgeCheck, Clock, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowRight, BadgeCheck, Clock, Mail, MapPin, Phone, Star } from "lucide-react";
 import { Bulb, Logo } from "@/components/brand";
 import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
@@ -61,21 +61,15 @@ const principles = [
   },
 ];
 
-// Placeholder reviews. Replace with real quotes (Google, Facebook, Angi, or a GC) before launch.
-const reviews = [
-  {
-    quote:
-      "They priced the job clearly, showed up the day they said they would, and passed rough-in on the first try. That's all I want from an electrical sub.",
-    name: "Client Name",
-    role: "Project Manager, General Contractor",
-  },
-  {
-    quote:
-      "We manage a few hundred units in Omaha. HRT is the electrician we call when a tenant is moving in Friday and something has to be fixed by Thursday.",
-    name: "Client Name",
-    role: "Property Manager",
-  },
-];
+// Verified review from BuildZoom (July 2020). Add more as they come in.
+const review = {
+  quote:
+    "HRT has always gotten work done on time and on budget. And they are very good at figuring out old house wiring and electrical problems.",
+  name: "Murray H.",
+  role: "Rewire of a century home",
+  source: "BuildZoom",
+  sourceUrl: "https://www.buildzoom.com/contractor/hrt-electric-llc",
+};
 
 const work = [
   {
@@ -127,7 +121,7 @@ const jsonLd = {
   },
   areaServed: ["Omaha, NE", "Douglas County, NE", "Sarpy County, NE"],
   knowsLanguage: ["en", "es"],
-  sameAs: [site.facebook],
+  sameAs: [site.facebook, review.sourceUrl],
 };
 
 const i = (n: number) => ({ "--i": n }) as CSSProperties;
@@ -393,30 +387,44 @@ export default function Home() {
               <h2 className="font-serif text-headline font-bold tracking-[-0.01em] text-ink">
                 From the people who hire us
               </h2>
-              <a
-                href={site.facebook}
-                className="inline-flex items-center gap-2 py-2 font-semibold text-ink underline decoration-brand decoration-2 underline-offset-4 transition-colors duration-150 hover-fine:text-brand"
-              >
-                More reviews on Facebook
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </a>
             </div>
 
-            <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-16">
-              {reviews.map((r, n) => (
-                <Reveal as="figure" key={n} index={n} className="relative border-l-4 border-brand pl-6 sm:pl-8">
-                  <span className="mb-4 inline-block rounded-[3px] bg-paper-warm px-2 py-1 text-xs font-semibold uppercase tracking-[0.1em] text-steel">
-                    Sample review
-                  </span>
-                  <blockquote className="font-serif text-[1.375rem] leading-snug text-ink sm:text-2xl">
-                    “{r.quote}”
-                  </blockquote>
-                  <figcaption className="mt-5 text-sm">
-                    <span className="font-semibold text-ink">{r.name}</span>
-                    <span className="text-steel"> · {r.role}</span>
-                  </figcaption>
-                </Reveal>
-              ))}
+            <div className="mt-12 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
+              <Reveal as="figure" className="relative border-l-4 border-brand pl-6 sm:pl-8">
+                <p className="mb-4 flex items-center gap-1 text-brand" aria-label="5 out of 5 stars">
+                  {[0, 1, 2, 3, 4].map((k) => (
+                    <Star key={k} className="size-5 fill-current" aria-hidden="true" />
+                  ))}
+                </p>
+                <blockquote className="font-serif text-[1.5rem] leading-snug text-ink sm:text-[1.875rem]">
+                  “{review.quote}”
+                </blockquote>
+                <figcaption className="mt-6 text-sm">
+                  <span className="font-semibold text-ink">{review.name}</span>
+                  <span className="text-steel"> · {review.role} · </span>
+                  <a
+                    href={review.sourceUrl}
+                    className="text-steel underline underline-offset-4 transition-colors duration-150 hover-fine:text-ink"
+                  >
+                    Verified on {review.source}
+                  </a>
+                </figcaption>
+              </Reveal>
+
+              <Reveal index={1} className="flex flex-col justify-center rounded-[4px] bg-paper-warm p-6 sm:p-8">
+                <h3 className="font-serif text-title font-bold text-ink">Worked with us?</h3>
+                <p className="mt-3 leading-relaxed text-steel">
+                  A two-line review helps the next GC or homeowner decide. We read every one.
+                </p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+                  <Button asChild variant="outline" size="sm">
+                    <a href={site.facebook}>Review us on Facebook</a>
+                  </Button>
+                  <Button asChild variant="ghost" size="sm" className="underline underline-offset-4">
+                    <a href={review.sourceUrl}>Review us on BuildZoom</a>
+                  </Button>
+                </div>
+              </Reveal>
             </div>
           </div>
         </section>
